@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 // import HomePage from './pages/HomePage.vue'
+const unused = 'test'
+
+console.log(notExistVariable)
 </script>
 
 <template>
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <h1>Vue Bootcamp</h1>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-  <!-- <HomePage /> -->
   <div id="app">
     <p>aaaaa</p>
     <p>aaaaa1</p>
