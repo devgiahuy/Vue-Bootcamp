@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-// import HomePage from './pages/HomePage.vue'
-const unused = 'test'
-
-console.log(notExistVariable)
 </script>
 
 <template>
   <div id="app">
+    <p>aaaaa</p>
+    <p>aaaaa</p>
     <p>aaaaa</p>
     <p>aaaaa1</p>
     <RouterView />
