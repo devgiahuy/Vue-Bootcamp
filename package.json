@@ -12,7 +12,17 @@
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "oxlint --fix",
+      "eslint --fix"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "pinia": "^4.0.2",
@@ -32,7 +42,9 @@
     "eslint-plugin-oxlint": "~1.73.0",
     "eslint-plugin-vue": "~10.9.2",
     "globals": "^17.9.0",
+    "husky": "^9.1.7",
     "jiti": "^2.7.0",
+    "lint-staged": "^17.3.0",
     "npm-run-all2": "^9.0.2",
     "oxfmt": "^0.59.0",
     "oxlint": "~1.73.0",

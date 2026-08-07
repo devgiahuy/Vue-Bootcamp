@@ -9,12 +9,12 @@
 
 ## 📋 Mục lục tổng quan
 
-| Phase | Bài | Chủ đề | Độ khó |
-|-------|-----|--------|--------|
-| **Foundation** | 01–06 | Setup, Component, Reactivity, Template, Lifecycle, Styling | ⭐ |
-| **Core Features** | 07–12 | Composables, Router, Pinia, Forms, API, Error Handling | ⭐⭐ |
-| **Advanced** | 13–18 | Slots, Provide/Inject, Transition, Directive, Plugin, Testing | ⭐⭐⭐ |
-| **Production** | 19–24 | Performance, SSR, i18n, Auth, Landing Page, Todo Dashboard | ⭐⭐⭐⭐ |
+| Phase             | Bài   | Chủ đề                                                        | Độ khó   |
+| ----------------- | ----- | ------------------------------------------------------------- | -------- |
+| **Foundation**    | 01–06 | Setup, Component, Reactivity, Template, Lifecycle, Styling    | ⭐       |
+| **Core Features** | 07–12 | Composables, Router, Pinia, Forms, API, Error Handling        | ⭐⭐     |
+| **Advanced**      | 13–18 | Slots, Provide/Inject, Transition, Directive, Plugin, Testing | ⭐⭐⭐   |
+| **Production**    | 19–24 | Performance, SSR, i18n, Auth, Landing Page, Todo Dashboard    | ⭐⭐⭐⭐ |
 
 ---
 
@@ -25,6 +25,7 @@
 ## 📘 Bài 01: Khởi tạo Project và Cấu hình
 
 ### 🎯 Mục tiêu
+
 - Hiểu cấu trúc thư mục chuẩn của một dự án Vue 3 + Vite + TypeScript
 - Cấu hình ESLint, Prettier, EditorConfig cho team
 - Thiết lập alias path `@/` và hiểu vì sao cần alias
@@ -34,13 +35,13 @@
 
 #### 1. Vite vs Next.js Build System
 
-| Đặc điểm | Vite (Vue) | Next.js (React) |
-|-----------|-----------|-----------------|
-| Bundler | Rollup (prod) + esbuild (dev) | Turbopack / Webpack |
-| Dev Server | Native ESM, HMR cực nhanh | HMR qua Webpack/Turbopack |
-| Config file | `vite.config.ts` | `next.config.js` |
-| SSR built-in | Không (cần Nuxt) | Có |
-| Entry point | `index.html` → `main.ts` | `_app.tsx` / `layout.tsx` |
+| Đặc điểm     | Vite (Vue)                    | Next.js (React)           |
+| ------------ | ----------------------------- | ------------------------- |
+| Bundler      | Rollup (prod) + esbuild (dev) | Turbopack / Webpack       |
+| Dev Server   | Native ESM, HMR cực nhanh     | HMR qua Webpack/Turbopack |
+| Config file  | `vite.config.ts`              | `next.config.js`          |
+| SSR built-in | Không (cần Nuxt)              | Có                        |
+| Entry point  | `index.html` → `main.ts`      | `_app.tsx` / `layout.tsx` |
 
 > **💡 Insight**: Vite không phải framework, nó là build tool. Vue + Vite ≈ React + Vite (cũng hoàn toàn khả thi). Next.js = React + Framework (routing, SSR, API routes...). Nuxt.js = Vue + Framework (tương đương Next.js).
 
@@ -91,7 +92,7 @@ import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
-app.use(createPinia())  // Plugin pattern — không có trong React
+app.use(createPinia()) // Plugin pattern — không có trong React
 app.use(router)
 app.mount('#app')
 ```
@@ -101,7 +102,9 @@ app.mount('#app')
 // Providers wrap component tree (Context pattern)
 export default function RootLayout({ children }) {
   return (
-    <Providers>       {/* Redux/Zustand Provider */}
+    <Providers>
+      {' '}
+      {/* Redux/Zustand Provider */}
       {children}
     </Providers>
   )
@@ -127,7 +130,9 @@ const count = ref(0)
 
 <style scoped>
 /* Style ở đây — scoped tự động, không cần CSS Modules */
-button { color: blue; }
+button {
+  color: blue;
+}
 </style>
 ```
 
@@ -159,12 +164,14 @@ export default function Counter() {
 ### 🔧 Các bước thực hiện
 
 **Bước 1**: Kiểm tra project chạy được
+
 ```bash
 npm run dev
 # Truy cập http://localhost:5173
 ```
 
 **Bước 2**: Tạo file CSS variables
+
 ```css
 /* src/styles/variables.css */
 :root {
@@ -210,12 +217,14 @@ npm run dev
 ```
 
 **Bước 3**: Import vào `main.ts`
+
 ```typescript
 import './styles/variables.css'
 import './assets/main.css'
 ```
 
 **Bước 4**: Clean up `App.vue`
+
 ```vue
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
@@ -237,6 +246,7 @@ import { RouterView } from 'vue-router'
 ```
 
 ### 🏭 Tiêu chuẩn Production
+
 - [ ] Không có code template mặc định còn sót
 - [ ] CSS variables được tổ chức có hệ thống (design tokens)
 - [ ] ESLint + Prettier chạy không lỗi: `npm run lint`
@@ -245,17 +255,20 @@ import { RouterView } from 'vue-router'
 - [ ] `.editorconfig` thống nhất code style cho cả team
 
 ### ⚠️ Những lỗi thường gặp
+
 1. **Quên import CSS variables** → Styles không nhận custom properties
 2. **Alias `@/` không hoạt động** → Phải config cả trong `vite.config.ts` VÀ `tsconfig.app.json`
 3. **ESLint conflict với Prettier** → Cần `eslint-config-prettier` để tắt rules xung đột
 4. **Dùng `var()` trong `<style scoped>`** → Hoạt động bình thường vì CSS variables là global
 
 ### 🏆 Challenge nâng cao
+
 - Thêm dark mode support bằng CSS variables + `prefers-color-scheme`
 - Cấu hình `env` files (`.env.development`, `.env.production`) cho API URL
 - Thêm `husky` + `lint-staged` để chạy lint trước mỗi commit
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Project chạy được tại `localhost:5173`
 - [ ] Cấu trúc thư mục đầy đủ theo chuẩn
 - [ ] CSS design tokens trong `variables.css`
@@ -264,6 +277,7 @@ import { RouterView } from 'vue-router'
 - [ ] Hiểu được flow: `index.html` → `main.ts` → `App.vue` → `RouterView`
 
 ### 📌 Git commit đề xuất
+
 ```
 feat: initialize project structure and design tokens
 
@@ -278,6 +292,7 @@ feat: initialize project structure and design tokens
 ## 📘 Bài 02: Component, Props và Emits
 
 ### 🎯 Mục tiêu
+
 - Tạo component theo chuẩn SFC (Single File Component)
 - Truyền dữ liệu qua Props với TypeScript
 - Gửi event từ child lên parent qua Emits
@@ -302,7 +317,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   disabled: false,
-  loading: false,
+  loading: false
 })
 
 const emit = defineEmits<{
@@ -318,11 +333,7 @@ function handleClick(event: MouseEvent) {
 </script>
 
 <template>
-  <button
-    :class="['btn', `btn--${variant}`]"
-    :disabled="disabled || loading"
-    @click="handleClick"
-  >
+  <button :class="['btn', `btn--${variant}`]" :disabled="disabled || loading" @click="handleClick">
     <span v-if="loading" class="btn__spinner" />
     <span v-else>{{ label }}</span>
   </button>
@@ -371,7 +382,7 @@ export default function BaseButton({
   disabled = false,
   loading = false,
   onClick,
-  onFocus,
+  onFocus
 }: Props) {
   function handleClick(event: React.MouseEvent) {
     if (!disabled && !loading) {
@@ -394,40 +405,31 @@ export default function BaseButton({
 
 #### 2. So sánh chi tiết Props
 
-| Khía cạnh | Vue 3 | React |
-|-----------|-------|-------|
-| Khai báo | `defineProps<Props>()` | Destructure từ params |
-| Default values | `withDefaults()` | Default params `= value` |
-| Required | Mặc định required (trừ `?`) | Dùng TypeScript `?` |
-| Validation | Runtime + compile-time | Chỉ compile-time (TS) |
-| Access trong template | Trực tiếp: `{{ label }}` | Phải qua variable |
-| Reactivity | Props tự reactive | Props tự trigger re-render |
+| Khía cạnh             | Vue 3                       | React                      |
+| --------------------- | --------------------------- | -------------------------- |
+| Khai báo              | `defineProps<Props>()`      | Destructure từ params      |
+| Default values        | `withDefaults()`            | Default params `= value`   |
+| Required              | Mặc định required (trừ `?`) | Dùng TypeScript `?`        |
+| Validation            | Runtime + compile-time      | Chỉ compile-time (TS)      |
+| Access trong template | Trực tiếp: `{{ label }}`    | Phải qua variable          |
+| Reactivity            | Props tự reactive           | Props tự trigger re-render |
 
 #### 3. So sánh Emits vs Callback Props
 
 ```vue
 <!-- Vue: Parent sử dụng component -->
 <template>
-  <BaseButton
-    label="Submit"
-    variant="primary"
-    @click="handleSubmit"
-    @focus="handleFocus"
-  />
+  <BaseButton label="Submit" variant="primary" @click="handleSubmit" @focus="handleFocus" />
 </template>
 ```
 
 ```tsx
 // React: Parent sử dụng component
-<BaseButton
-  label="Submit"
-  variant="primary"
-  onClick={handleSubmit}
-  onFocus={handleFocus}
-/>
+<BaseButton label="Submit" variant="primary" onClick={handleSubmit} onFocus={handleFocus} />
 ```
 
 > **🔑 Khác biệt cốt lõi**:
+>
 > - Vue dùng **event system** (`emit` + `@event`): child "phát" event, parent "lắng nghe"
 > - React dùng **callback props** (`onClick`): parent truyền function xuống, child gọi function
 > - Kết quả giống nhau, nhưng Vue tách biệt rõ ràng hơn giữa "dữ liệu đi xuống" (props) và "sự kiện đi lên" (emits)
@@ -468,9 +470,13 @@ export default function BaseButton({
 return (
   <>
     {/* Conditional: ternary hoặc && */}
-    {status === 'loading' ? <div>Loading...</div>
-     : status === 'error' ? <div>Error!</div>
-     : <div>{data}</div>}
+    {status === 'loading' ? (
+      <div>Loading...</div>
+    ) : status === 'error' ? (
+      <div>Error!</div>
+    ) : (
+      <div>{data}</div>
+    )}
 
     {/* List: .map() */}
     <ul>
@@ -497,6 +503,7 @@ return (
 > **💡 v-model deep dive**: `v-model="x"` là syntactic sugar cho `:modelValue="x" @update:modelValue="x = $event"`. Tương đương việc bạn tự viết `value` + `onChange` trong React, nhưng Vue wrap lại cho gọn.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo component `BaseButton` với props: `label`, `variant`, `disabled`, `loading`
 2. Tạo component `BaseInput` với `v-model` support
 3. Tạo component `BaseCard` hiển thị title + description
@@ -508,6 +515,7 @@ return (
 **Bước 1**: Tạo `src/components/ui/BaseButton.vue` (code ở trên)
 
 **Bước 2**: Tạo `src/components/ui/BaseInput.vue`
+
 ```vue
 <script setup lang="ts">
 interface Props {
@@ -522,7 +530,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   type: 'text',
   placeholder: '',
-  disabled: false,
+  disabled: false
 })
 
 const emit = defineEmits<{
@@ -554,6 +562,7 @@ function handleInput(event: Event) {
 > **🔑 v-model trên custom component**: Khi parent dùng `<BaseInput v-model="name" />`, Vue tự động truyền prop `modelValue` và lắng nghe event `update:modelValue`. Đây chính là convention mà bạn cần follow.
 
 **Bước 3**: Tạo `src/components/ui/BaseCard.vue`
+
 ```vue
 <script setup lang="ts">
 interface Props {
@@ -563,7 +572,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  hoverable: false,
+  hoverable: false
 })
 </script>
 
@@ -578,6 +587,7 @@ withDefaults(defineProps<Props>(), {
 ```
 
 **Bước 4**: Tạo demo page sử dụng các components
+
 ```vue
 <!-- src/pages/ComponentsDemo.vue -->
 <script setup lang="ts">
@@ -603,22 +613,15 @@ function handleSubmit() {
     <h1>Components Demo</h1>
 
     <BaseCard title="User Form" description="Try out the components">
-      <BaseInput
-        v-model="username"
-        label="Username"
-        placeholder="Enter your name..."
-      />
-      <BaseButton
-        label="Submit"
-        :loading="isLoading"
-        @click="handleSubmit"
-      />
+      <BaseInput v-model="username" label="Username" placeholder="Enter your name..." />
+      <BaseButton label="Submit" :loading="isLoading" @click="handleSubmit" />
     </BaseCard>
   </div>
 </template>
 ```
 
 ### 🏭 Tiêu chuẩn Production
+
 - [ ] Tên component dùng PascalCase và prefix `Base` cho UI primitives
 - [ ] Props có TypeScript interface rõ ràng
 - [ ] Emits được khai báo đầy đủ với type
@@ -626,17 +629,20 @@ function handleSubmit() {
 - [ ] Có default values cho optional props
 
 ### ⚠️ Những lỗi thường gặp
+
 1. **Quên `:key` khi dùng `v-for`** → Vue cảnh báo và performance kém
 2. **Mutate props trực tiếp** → Vue sẽ warning. Phải emit event lên parent
 3. **Dùng `v-if` cùng `v-for` trên cùng element** → `v-if` có priority cao hơn `v-for`, dễ gây bug
 4. **Nhầm `v-show` với `v-if`** → `v-show` chỉ toggle CSS, element vẫn render. `v-if` destroy/create element thật
 
 ### 🏆 Challenge nâng cao
+
 - Tạo component `BaseAvatar` hiển thị avatar từ URL hoặc initials
 - Tạo component `BaseBadge` với các variant: info, success, warning, danger
 - Implement `BaseButton` với icon support (left/right icon)
 
 ### ✅ Checklist hoàn thành
+
 - [ ] 3 components UI hoạt động đúng
 - [ ] Props typed đầy đủ với TypeScript
 - [ ] v-model hoạt động trên BaseInput
@@ -646,6 +652,7 @@ function handleSubmit() {
 - [ ] Style scoped, không CSS leak
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(ui): add BaseButton, BaseInput, BaseCard components
 
@@ -660,6 +667,7 @@ feat(ui): add BaseButton, BaseInput, BaseCard components
 ## 📘 Bài 03: Reactivity System — ref, reactive, computed, watch
 
 ### 🎯 Mục tiêu
+
 - Hiểu sâu hệ thống Reactivity của Vue 3
 - Phân biệt `ref` vs `reactive` và khi nào dùng cái nào
 - Sử dụng `computed` cho derived state
@@ -675,20 +683,22 @@ feat(ui): add BaseButton, BaseInput, BaseCard components
 import { ref } from 'vue'
 
 // Vue: ref wraps value trong .value
-const count = ref(0)        // Ref<number>
-const name = ref('Hùng')    // Ref<string>
-const isOpen = ref(false)    // Ref<boolean>
+const count = ref(0) // Ref<number>
+const name = ref('Hùng') // Ref<string>
+const isOpen = ref(false) // Ref<boolean>
 
 // Trong <script>: truy cập qua .value
 count.value++
-console.log(count.value)  // 1
+console.log(count.value) // 1
 
 // Trong <template>: TỰ ĐỘNG unwrap, KHÔNG cần .value
 </script>
 
 <template>
-  <p>{{ count }}</p>         <!-- Tự unwrap, không cần .value -->
-  <button @click="count++"> <!-- Template cũng tự unwrap -->
+  <p>{{ count }}</p>
+  <!-- Tự unwrap, không cần .value -->
+  <button @click="count++">
+    <!-- Template cũng tự unwrap -->
     Increment
   </button>
 </template>
@@ -712,6 +722,7 @@ return (
 ```
 
 > **🔑 Khác biệt cốt lõi**:
+>
 > - Vue `ref`: **mutable** — gán `.value` trực tiếp, Vue tự detect thay đổi nhờ Proxy
 > - React `useState`: **immutable** — phải gọi setter, trigger re-render toàn component
 > - Vue KHÔNG re-render toàn component, nó track dependency chính xác và chỉ update DOM cần thiết
@@ -726,14 +737,14 @@ import { reactive } from 'vue'
 const form = reactive({
   username: '',
   email: '',
-  password: '',
+  password: ''
 })
 
 // Gán trực tiếp — Vue tự track
 form.username = 'John'
 
 // ⚠️ CẢNH BÁO: Không destructure reactive object!
-const { username } = form  // ❌ Mất reactivity!
+const { username } = form // ❌ Mất reactivity!
 </script>
 
 <template>
@@ -743,6 +754,7 @@ const { username } = form  // ❌ Mất reactivity!
 ```
 
 > **💡 ref vs reactive — Khi nào dùng?**
+>
 > - `ref`: Dùng cho primitive values (string, number, boolean) và khi cần reassign
 > - `reactive`: Dùng cho object/array khi muốn syntax sạch hơn (không `.value`)
 > - **Best practice production**: Dùng `ref` cho mọi thứ — consistent hơn, dễ refactor hơn
@@ -757,7 +769,7 @@ import { ref, computed } from 'vue'
 const items = ref([
   { id: 1, name: 'Task 1', done: false },
   { id: 2, name: 'Task 2', done: true },
-  { id: 3, name: 'Task 3', done: false },
+  { id: 3, name: 'Task 3', done: false }
 ])
 
 const searchTerm = ref('')
@@ -765,8 +777,9 @@ const searchTerm = ref('')
 // computed: tự động re-calculate khi dependencies thay đổi
 // Vue TỰ track dependencies — không cần dependency array như useMemo!
 const filteredItems = computed(() => {
-  return items.value.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  return items.value.filter(
+    item => item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+    // .includes() là phương thức của String dùng để tìm kiếm chuỗi con, trả về true nếu tìm thấy, ngược lại trả về false
   )
 })
 
@@ -784,10 +797,8 @@ const progress = computed(() => {
 ```tsx
 // React equivalent: useMemo with dependency arrays
 const filteredItems = useMemo(() => {
-  return items.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-}, [items, searchTerm])  // ← Phải khai báo dependencies thủ công!
+  return items.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+}, [items, searchTerm]) // ← Phải khai báo dependencies thủ công!
 
 const completedCount = useMemo(() => {
   return items.filter(item => item.done).length
@@ -800,6 +811,7 @@ const progress = useMemo(() => {
 ```
 
 > **🔑 Vue computed vs React useMemo**:
+>
 > - Vue: **Tự động track** dependencies, không cần dependency array → không bao giờ quên dependency
 > - React: **Phải khai báo** dependency array → dễ miss dependency, gây stale data
 > - Vue computed là **lazy & cached**: chỉ re-calculate khi dependency thực sự thay đổi VÀ khi được đọc
@@ -821,15 +833,19 @@ watch(searchTerm, (newValue, oldValue) => {
 })
 
 // watch với options
-watch(selectedId, async (newId) => {
-  if (newId !== null) {
-    const data = await fetchItem(newId)
-    // ...
+watch(
+  selectedId,
+  async newId => {
+    if (newId !== null) {
+      const data = await fetchItem(newId)
+      // ...
+    }
+  },
+  {
+    immediate: true // Chạy ngay lần đầu (như useEffect chạy mount)
+    // deep: true,     // Deep watch cho object/array
   }
-}, {
-  immediate: true,  // Chạy ngay lần đầu (như useEffect chạy mount)
-  // deep: true,     // Deep watch cho object/array
-})
+)
 
 // watchEffect: tự track dependencies (like useEffect without deps array)
 // Chạy ngay lần đầu, sau đó chạy lại khi bất kỳ dependency nào thay đổi
@@ -853,7 +869,9 @@ useEffect(() => {
 // useEffect chạy mount + khi dep thay đổi = watch with immediate: true
 useEffect(() => {
   if (selectedId !== null) {
-    fetchItem(selectedId).then(data => { /* ... */ })
+    fetchItem(selectedId).then(data => {
+      /* ... */
+    })
   }
 }, [selectedId])
 
@@ -861,14 +879,19 @@ useEffect(() => {
 useEffect(() => {
   document.title = `Search: ${searchTerm} | React App`
 }, [searchTerm]) // Phải list deps thủ công
+
+// list deps là : [searchTerm] - trong ngoặc vuông là dependency array có công dụng là: nó sẽ tự động track các dependency trong array - từ đó có thể dùng watch để theo dõi sự thay đổi của searchTerm
 ```
 
 > **🔑 watch vs watchEffect**:
+>
 > - `watch`: Explicit source, có access `oldValue`, lazy (không chạy lần đầu trừ khi `immediate: true`)
+> - `immediate`: true => true là: chạy ngay lần đầu tiên
 > - `watchEffect`: Tự track, chạy ngay, gọn hơn — dùng khi không cần `oldValue`
 > - Cả hai đều **tự cleanup** khi component unmount (React phải return cleanup function)
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo một Todo List đơn giản sử dụng `ref` cho state
 2. Dùng `computed` để tính: filteredTodos, completedCount, progress percentage
 3. Dùng `watch` để lưu todos vào localStorage khi thay đổi
@@ -877,6 +900,7 @@ useEffect(() => {
 ### 🔧 Các bước thực hiện
 
 **Tạo `src/pages/ReactivityDemo.vue`:**
+
 ```vue
 <script setup lang="ts">
 import { ref, computed, watch, watchEffect } from 'vue'
@@ -888,9 +912,7 @@ interface Todo {
 }
 
 // State
-const todos = ref<Todo[]>(
-  JSON.parse(localStorage.getItem('todos') || '[]')
-)
+const todos = ref<Todo[]>(JSON.parse(localStorage.getItem('todos') || '[]'))
 const newTodo = ref('')
 const filter = ref<'all' | 'active' | 'completed'>('all')
 
@@ -906,9 +928,7 @@ const filteredTodos = computed(() => {
   }
 })
 
-const completedCount = computed(() =>
-  todos.value.filter(t => t.done).length
-)
+const completedCount = computed(() => todos.value.filter(t => t.done).length)
 
 const progress = computed(() => {
   if (todos.value.length === 0) return 0
@@ -923,7 +943,7 @@ function addTodo() {
   todos.value.push({
     id: Date.now(),
     text,
-    done: false,
+    done: false
   })
   newTodo.value = ''
 }
@@ -938,9 +958,13 @@ function removeTodo(id: number) {
 }
 
 // Watch — side effects
-watch(todos, (newTodos) => {
-  localStorage.setItem('todos', JSON.stringify(newTodos))
-}, { deep: true })
+watch(
+  todos,
+  newTodos => {
+    localStorage.setItem('todos', JSON.stringify(newTodos))
+  },
+  { deep: true }
+)
 
 // watchEffect — auto-track
 watchEffect(() => {
@@ -950,6 +974,7 @@ watchEffect(() => {
 ```
 
 ### 🏭 Tiêu chuẩn Production
+
 - [ ] Không dùng `reactive` cho primitive values
 - [ ] `computed` cho mọi derived state (không tính trong template)
 - [ ] `watch` có `deep: true` khi watch object/array
@@ -957,6 +982,7 @@ watchEffect(() => {
 - [ ] cleanup logic khi cần (ví dụ: cancel API call)
 
 ### ⚠️ Những lỗi thường gặp
+
 1. **Quên `.value` trong `<script>`** → Code chạy nhưng không reactive
 2. **Destructure reactive object** → Mất reactivity! Dùng `toRefs()` nếu cần destructure
 3. **Dùng computed cho side effects** → computed chỉ dùng cho pure derived state
@@ -964,11 +990,13 @@ watchEffect(() => {
 5. **watchEffect chạy quá nhiều** → Nó track MỌI reactive ref được đọc bên trong
 
 ### 🏆 Challenge nâng cao
+
 - Implement debounced search với `watchEffect` + `setTimeout`
 - Tạo composable `useLocalStorage<T>(key, defaultValue)` wrap logic localStorage
 - Implement undo/redo cho todo list bằng cách watch history
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Hiểu `ref` vs `reactive` và chọn đúng
 - [ ] Dùng `computed` cho derived state
 - [ ] `watch` lưu localStorage thành công
@@ -977,6 +1005,7 @@ watchEffect(() => {
 - [ ] Giải thích được tại sao Vue không cần dependency array
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(reactivity): add Todo list with computed, watch, watchEffect
 
@@ -991,6 +1020,7 @@ feat(reactivity): add Todo list with computed, watch, watchEffect
 ## 📘 Bài 04: Template Syntax Nâng Cao và Dynamic Rendering
 
 ### 🎯 Mục tiêu
+
 - Master template syntax: v-bind, v-on, v-model modifiers
 - Dynamic class và style binding
 - Conditional và list rendering patterns nâng cao
@@ -1004,14 +1034,10 @@ feat(reactivity): add Todo list with computed, watch, watchEffect
 ```vue
 <template>
   <!-- Object syntax -->
-  <div :class="{ active: isActive, 'text-danger': hasError }">
-    Object syntax
-  </div>
+  <div :class="{ active: isActive, 'text-danger': hasError }">Object syntax</div>
 
   <!-- Array syntax -->
-  <div :class="[baseClass, isActive ? 'active' : '']">
-    Array syntax
-  </div>
+  <div :class="[baseClass, isActive ? 'active' : '']">Array syntax</div>
 
   <!-- Computed class (RECOMMENDED cho logic phức tạp) -->
   <div :class="cardClasses">Computed class</div>
@@ -1025,10 +1051,10 @@ const hasError = ref(false)
 const baseClass = ref('card')
 
 const cardClasses = computed(() => ({
-  'card': true,
+  card: true,
   'card--active': isActive.value,
   'card--error': hasError.value,
-  'card--elevated': !hasError.value && isActive.value,
+  'card--elevated': !hasError.value && isActive.value
 }))
 </script>
 ```
@@ -1131,17 +1157,20 @@ return <input ref={inputRef} />
 > **🔑 Tên phải khớp**: `ref="inputRef"` trong template phải match `const inputRef = ref()` trong script. Vue tự liên kết.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo component `StatusBadge` sử dụng dynamic class binding
 2. Tạo form với v-model modifiers (.trim, .number, .lazy)
 3. Implement keyboard shortcuts bằng event modifiers
 4. Sử dụng template ref để auto-focus input khi mount
 
 ### 🏆 Challenge nâng cao
+
 - Tạo component `DataTable` với sortable columns (dùng computed + dynamic class)
 - Implement `ClickOutside` behavior bằng template ref + event listener
 - Tạo `Tooltip` component hiển thị theo vị trí mouse
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Hiểu 3 cách binding class: string, object, array
 - [ ] Sử dụng v-model modifiers cho form input
 - [ ] Dùng event modifiers thay vì handle thủ công
@@ -1149,6 +1178,7 @@ return <input ref={inputRef} />
 - [ ] Có thể giải thích tại sao Vue không dùng JSX mặc định
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(template): advanced template syntax demo
 
@@ -1163,6 +1193,7 @@ feat(template): advanced template syntax demo
 ## 📘 Bài 05: Lifecycle Hooks và Component Communication Patterns
 
 ### 🎯 Mục tiêu
+
 - Hiểu lifecycle của Vue component
 - Master các lifecycle hooks: onMounted, onUpdated, onUnmounted
 - Component communication patterns: props down, events up
@@ -1190,13 +1221,7 @@ Component Created  ← <script setup> chạy tại đây
 
 ```vue
 <script setup lang="ts">
-import {
-  onMounted,
-  onUpdated,
-  onUnmounted,
-  onBeforeMount,
-  onBeforeUnmount,
-} from 'vue'
+import { onMounted, onUpdated, onUnmounted, onBeforeMount, onBeforeUnmount } from 'vue'
 
 // Script setup body ≈ React function body (chạy mỗi "render")
 // NHƯNG trong Vue, nó chỉ chạy MỘT LẦN khi component được tạo!
@@ -1252,6 +1277,7 @@ function MyComponent() {
 ```
 
 > **🔑 Khác biệt quan trọng nhất**:
+>
 > - Vue `<script setup>` body chạy **1 lần** (giống constructor)
 > - React function body chạy **mỗi render** (vì thế cần useMemo, useCallback)
 > - Vue có lifecycle hooks **riêng biệt** cho từng phase
@@ -1277,18 +1303,21 @@ function MyComponent() {
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo component `Timer` với start/stop/reset, dùng `onMounted` + `onUnmounted` để cleanup
 2. Tạo component `WindowSize` theo dõi kích thước window với cleanup event listener
 3. Tạo demo page hiển thị cả hai components
 4. Implement ẩn/hiện component để test unmount behavior
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Hiểu thứ tự lifecycle hooks
 - [ ] Cleanup resources trong onUnmounted (intervals, event listeners)
 - [ ] Giải thích được tại sao Vue script setup chỉ chạy 1 lần
 - [ ] Biết khi nào dùng onMounted vs trực tiếp trong script setup
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(lifecycle): add Timer and WindowSize components
 
@@ -1302,6 +1331,7 @@ feat(lifecycle): add Timer and WindowSize components
 ## 📘 Bài 06: CSS Scoped, CSS Modules và Styling Strategies
 
 ### 🎯 Mục tiêu
+
 - Hiểu cách Vue xử lý scoped CSS
 - So sánh các styling approaches: Scoped CSS, CSS Modules, Global CSS
 - Deep selector `:deep()` cho child components
@@ -1322,6 +1352,7 @@ feat(lifecycle): add Timer and WindowSize components
 ```
 
 > **So sánh với React**:
+>
 > - Vue Scoped CSS: Tự động, zero config, built-in
 > - React CSS Modules: Phải tạo file `.module.css`, import styles object
 > - React styled-components: Runtime overhead, CSS-in-JS
@@ -1367,12 +1398,14 @@ const themeColor = ref('#3b82f6')
 > **🔥 Đây là super power của Vue** — dynamic CSS từ JS state. React không có equivalent built-in (phải dùng CSS variables + inline style hoặc styled-components).
 
 ### 📝 Yêu cầu bài tập
+
 1. Xây dựng `ThemeToggle` component với dark/light mode
 2. Tạo design system với shared CSS variables
 3. Sử dụng `v-bind()` trong CSS cho dynamic theming
 4. Tạo `src/styles/` với tổ chức file hệ thống
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Hiểu scoped CSS mechanism
 - [ ] Dùng `:deep()` khi cần style child components
 - [ ] `v-bind()` trong CSS hoạt động
@@ -1380,6 +1413,7 @@ const themeColor = ref('#3b82f6')
 - [ ] Dark/Light mode toggle hoạt động
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(styles): implement theme system with dark mode
 
@@ -1397,6 +1431,7 @@ feat(styles): implement theme system with dark mode
 ## 📘 Bài 07: Composables — Custom Hooks của Vue
 
 ### 🎯 Mục tiêu
+
 - Tạo composables (custom hooks) tái sử dụng
 - Hiểu naming convention: `use` prefix
 - Extract logic phức tạp ra khỏi components
@@ -1416,17 +1451,23 @@ export function useCounter(initialValue = 0) {
   const doubleCount = computed(() => count.value * 2)
   const isPositive = computed(() => count.value > 0)
 
-  function increment() { count.value++ }
-  function decrement() { count.value-- }
-  function reset() { count.value = initialValue }
+  function increment() {
+    count.value++
+  }
+  function decrement() {
+    count.value--
+  }
+  function reset() {
+    count.value = initialValue
+  }
 
   return {
-    count,        // Ref — reactive
-    doubleCount,  // ComputedRef — derived
+    count, // Ref — reactive
+    doubleCount, // ComputedRef — derived
     isPositive,
-    increment,    // Functions — actions
+    increment, // Functions — actions
     decrement,
-    reset,
+    reset
   }
 }
 ```
@@ -1450,6 +1491,7 @@ export function useCounter(initialValue = 0) {
 ```
 
 > **🔑 Vue composables vs React hooks**:
+>
 > - Vue: Không cần `useCallback`, `useMemo` cho optimization — functions không re-create mỗi render
 > - Vue: Return `ref` objects — consumer có thể watch chúng
 > - Vue: Chạy 1 lần khi setup, không có dependency array issues
@@ -1466,9 +1508,13 @@ export function useLocalStorage<T>(key: string, defaultValue: T): Ref<T> {
   const stored = localStorage.getItem(key)
   const data = ref<T>(stored ? JSON.parse(stored) : defaultValue) as Ref<T>
 
-  watch(data, (newValue) => {
-    localStorage.setItem(key, JSON.stringify(newValue))
-  }, { deep: true })
+  watch(
+    data,
+    newValue => {
+      localStorage.setItem(key, JSON.stringify(newValue))
+    },
+    { deep: true }
+  )
 
   return data
 }
@@ -1529,7 +1575,7 @@ export function useDebounce<T>(source: Ref<T>, delay = 300): Ref<T> {
   const debounced = ref(source.value) as Ref<T>
   let timeout: ReturnType<typeof setTimeout>
 
-  watch(source, (newValue) => {
+  watch(source, newValue => {
     clearTimeout(timeout)
     timeout = setTimeout(() => {
       debounced.value = newValue
@@ -1541,6 +1587,7 @@ export function useDebounce<T>(source: Ref<T>, delay = 300): Ref<T> {
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `useLocalStorage` composable
 2. Tạo `useFetch` composable với loading/error states
 3. Tạo `useDebounce` composable
@@ -1548,6 +1595,7 @@ export function useDebounce<T>(source: Ref<T>, delay = 300): Ref<T> {
 5. Tạo demo page sử dụng tất cả composables
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Composables follow naming convention `use*`
 - [ ] Return type rõ ràng với TypeScript
 - [ ] Cleanup logic trong composable (clearTimeout, removeEventListener)
@@ -1555,6 +1603,7 @@ export function useDebounce<T>(source: Ref<T>, delay = 300): Ref<T> {
 - [ ] Hiểu tại sao Vue không cần useCallback/useMemo
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(composables): add useLocalStorage, useFetch, useDebounce
 
@@ -1569,6 +1618,7 @@ feat(composables): add useLocalStorage, useFetch, useDebounce
 ## 📘 Bài 08: Vue Router — Routing & Navigation
 
 ### 🎯 Mục tiêu
+
 - Cấu hình Vue Router với TypeScript
 - Dynamic routes, nested routes, route guards
 - Programmatic navigation
@@ -1578,15 +1628,15 @@ feat(composables): add useLocalStorage, useFetch, useDebounce
 
 #### 1. Vue Router vs Next.js Router
 
-| Khía cạnh | Vue Router | Next.js App Router |
-|-----------|-----------|-------------------|
-| Config | File-based HOẶC programmatic | File-based (bắt buộc) |
-| Dynamic route | `/user/:id` | `/user/[id]` |
-| Nested routes | `children: []` | Folder nesting |
-| Layout | Manual (components) | `layout.tsx` convention |
-| Guards | `beforeEach`, `beforeEnter` | Middleware |
-| Navigate | `router.push()` | `router.push()` (giống) |
-| Link | `<RouterLink>` | `<Link>` |
+| Khía cạnh     | Vue Router                   | Next.js App Router      |
+| ------------- | ---------------------------- | ----------------------- |
+| Config        | File-based HOẶC programmatic | File-based (bắt buộc)   |
+| Dynamic route | `/user/:id`                  | `/user/[id]`            |
+| Nested routes | `children: []`               | Folder nesting          |
+| Layout        | Manual (components)          | `layout.tsx` convention |
+| Guards        | `beforeEach`, `beforeEnter`  | Middleware              |
+| Navigate      | `router.push()`              | `router.push()` (giống) |
+| Link          | `<RouterLink>`               | `<Link>`                |
 
 #### 2. Cấu hình Router
 
@@ -1604,15 +1654,15 @@ const routes: RouteRecordRaw[] = [
         path: '',
         name: 'home',
         component: () => import('@/pages/HomePage.vue'),
-        meta: { title: 'Home' },
+        meta: { title: 'Home' }
       },
       {
         path: 'about',
         name: 'about',
         component: () => import('@/pages/AboutPage.vue'),
-        meta: { title: 'About' },
-      },
-    ],
+        meta: { title: 'About' }
+      }
+    ]
   },
   {
     path: '/auth',
@@ -1622,22 +1672,22 @@ const routes: RouteRecordRaw[] = [
         path: 'login',
         name: 'login',
         component: () => import('@/pages/auth/LoginPage.vue'),
-        meta: { title: 'Login', requiresGuest: true },
-      },
-    ],
+        meta: { title: 'Login', requiresGuest: true }
+      }
+    ]
   },
   {
     // Dynamic route — tương đương [id] trong Next.js
     path: '/users/:id',
     name: 'user-detail',
     component: () => import('@/pages/users/UserDetailPage.vue'),
-    meta: { title: 'User Detail', requiresAuth: true },
+    meta: { title: 'User Detail', requiresAuth: true }
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
-    component: () => import('@/pages/NotFoundPage.vue'),
-  },
+    component: () => import('@/pages/NotFoundPage.vue')
+  }
 ]
 
 const router = createRouter({
@@ -1646,7 +1696,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     return { top: 0 }
-  },
+  }
 })
 
 // Navigation Guard — tương đương Next.js middleware
@@ -1673,12 +1723,12 @@ export default router
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()   // Read-only route info (giống usePathname, useParams)
+const route = useRoute() // Read-only route info (giống usePathname, useParams)
 const router = useRouter() // Navigation methods (giống useRouter)
 
 // Dynamic params
-const userId = route.params.id           // string
-const page = route.query.page            // string | undefined
+const userId = route.params.id // string
+const page = route.query.page // string | undefined
 
 // Programmatic navigation
 function goToUser(id: number) {
@@ -1693,18 +1743,15 @@ function goBack() {
 <template>
   <!-- Declarative navigation -->
   <RouterLink to="/">Home</RouterLink>
-  <RouterLink :to="{ name: 'user-detail', params: { id: 1 } }">
-    User 1
-  </RouterLink>
+  <RouterLink :to="{ name: 'user-detail', params: { id: 1 } }">User 1</RouterLink>
 
   <!-- Active class tự động (Next.js phải tự check) -->
-  <RouterLink to="/about" active-class="nav--active">
-    About
-  </RouterLink>
+  <RouterLink to="/about" active-class="nav--active">About</RouterLink>
 </template>
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Cấu hình router với: Home, About, Users (list), User Detail (dynamic)
 2. Tạo `DefaultLayout` với navigation bar
 3. Implement lazy loading cho pages (`() => import(...)`)
@@ -1712,6 +1759,7 @@ function goBack() {
 5. Tạo `NotFoundPage` cho 404
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Routes lazy-loaded
 - [ ] Nested routes với layout system
 - [ ] Dynamic routes hoạt động
@@ -1720,6 +1768,7 @@ function goBack() {
 - [ ] RouterLink active class hoạt động
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(router): configure Vue Router with layouts and guards
 
@@ -1734,6 +1783,7 @@ feat(router): configure Vue Router with layouts and guards
 ## 📘 Bài 09: Pinia — State Management
 
 ### 🎯 Mục tiêu
+
 - Setup và sử dụng Pinia store
 - So sánh với Redux Toolkit / Zustand
 - Store organization patterns
@@ -1743,14 +1793,14 @@ feat(router): configure Vue Router with layouts and guards
 
 #### 1. Pinia vs Redux/Zustand
 
-| Khía cạnh | Pinia | Redux Toolkit | Zustand |
-|-----------|-------|---------------|---------|
-| Boilerplate | Rất ít | Trung bình | Rất ít |
-| TypeScript | First-class | Tốt nhưng verbose | Tốt |
-| DevTools | Vue DevTools | Redux DevTools | Middleware |
-| Mutations | Không cần | Reducers/Mutations | Không cần |
-| Store definition | `defineStore()` | `createSlice()` | `create()` |
-| Composition | Import trực tiếp | Selectors | Selectors |
+| Khía cạnh        | Pinia            | Redux Toolkit      | Zustand    |
+| ---------------- | ---------------- | ------------------ | ---------- |
+| Boilerplate      | Rất ít           | Trung bình         | Rất ít     |
+| TypeScript       | First-class      | Tốt nhưng verbose  | Tốt        |
+| DevTools         | Vue DevTools     | Redux DevTools     | Middleware |
+| Mutations        | Không cần        | Reducers/Mutations | Không cần  |
+| Store definition | `defineStore()`  | `createSlice()`    | `create()` |
+| Composition      | Import trực tiếp | Selectors          | Selectors  |
 
 #### 2. Pinia Store — Setup Style (Recommended)
 
@@ -1770,9 +1820,12 @@ export const useTodoStore = defineStore('todo', () => {
   // Getters — computed()
   const filteredTodos = computed(() => {
     switch (filter.value) {
-      case 'active': return todos.value.filter(t => !t.done)
-      case 'completed': return todos.value.filter(t => t.done)
-      default: return todos.value
+      case 'active':
+        return todos.value.filter(t => !t.done)
+      case 'completed':
+        return todos.value.filter(t => t.done)
+      default:
+        return todos.value
     }
   })
 
@@ -1797,7 +1850,7 @@ export const useTodoStore = defineStore('todo', () => {
     todos.value.push({
       id: Date.now(),
       text,
-      done: false,
+      done: false
     })
   }
 
@@ -1816,11 +1869,20 @@ export const useTodoStore = defineStore('todo', () => {
 
   return {
     // State
-    todos, filter, loading, error,
+    todos,
+    filter,
+    loading,
+    error,
     // Getters
-    filteredTodos, totalCount, completedCount,
+    filteredTodos,
+    totalCount,
+    completedCount,
     // Actions
-    fetchTodos, addTodo, toggleTodo, removeTodo, setFilter,
+    fetchTodos,
+    addTodo,
+    toggleTodo,
+    removeTodo,
+    setFilter
   }
 })
 ```
@@ -1831,27 +1893,39 @@ const todoSlice = createSlice({
   name: 'todo',
   initialState: { todos: [], filter: 'all', loading: false, error: null },
   reducers: {
-    addTodo: (state, action) => { state.todos.push(action.payload) },
-    toggleTodo: (state, action) => { /* ... */ },
-    removeTodo: (state, action) => { /* ... */ },
-    setFilter: (state, action) => { state.filter = action.payload },
+    addTodo: (state, action) => {
+      state.todos.push(action.payload)
+    },
+    toggleTodo: (state, action) => {
+      /* ... */
+    },
+    removeTodo: (state, action) => {
+      /* ... */
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload
+    }
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchTodos.pending, (state) => { state.loading = true })
+  extraReducers: builder => {
+    builder.addCase(fetchTodos.pending, state => {
+      state.loading = true
+    })
     // ... rất nhiều cases
-  },
+  }
 })
 ```
 
 > **🔑 Pinia setup store** = viết composable + `defineStore()` wrap. Nếu bạn biết viết Vue composable, bạn đã biết viết Pinia store. Không có mutations, reducers, action creators — chỉ có `ref`, `computed`, `function`.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `useTodoStore` với CRUD operations
 2. Tạo `useAuthStore` với login/logout
 3. Tạo `useUIStore` cho theme, sidebar state
 4. Sử dụng stores trong components
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Stores tổ chức theo feature (todo, auth, ui)
 - [ ] Dùng Setup style cho stores (composition API)
 - [ ] Actions async với loading/error states
@@ -1859,6 +1933,7 @@ const todoSlice = createSlice({
 - [ ] TypeScript types đầy đủ
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(stores): add Pinia stores for todo, auth, and UI
 
@@ -1872,6 +1947,7 @@ feat(stores): add Pinia stores for todo, auth, and UI
 ## 📘 Bài 10: Forms và Validation
 
 ### 🎯 Mục tiêu
+
 - Xây dựng form phức tạp với Vue
 - Implement validation thủ công (production pattern)
 - v-model trên custom components
@@ -1903,7 +1979,7 @@ const form = reactive<FormState>({
   username: '',
   email: '',
   password: '',
-  confirmPassword: '',
+  confirmPassword: ''
 })
 
 const errors = reactive<FormErrors>({})
@@ -1939,10 +2015,12 @@ function validate(): boolean {
 }
 
 const isValid = computed(() => {
-  return form.username.length >= 3
-    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
-    && form.password.length >= 8
-    && form.password === form.confirmPassword
+  return (
+    form.username.length >= 3 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) &&
+    form.password.length >= 8 &&
+    form.password === form.confirmPassword
+  )
 })
 
 function handleSubmit() {
@@ -1959,12 +2037,14 @@ function handleBlur(field: string) {
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo registration form với validation
 2. Implement real-time validation khi blur
 3. Tạo reusable `FormField` component
 4. Disable submit khi form invalid
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Form validation hoạt động
 - [ ] Error messages hiển thị chính xác
 - [ ] Touch tracking cho UX tốt
@@ -1972,6 +2052,7 @@ function handleBlur(field: string) {
 - [ ] Tất cả inputs accessible (label, aria attributes)
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(forms): add registration form with validation
 
@@ -1986,6 +2067,7 @@ feat(forms): add registration form with validation
 ## 📘 Bài 11: API Integration và Services Layer
 
 ### 🎯 Mục tiêu
+
 - Tổ chức API layer chuyên nghiệp
 - Tạo service layer với Axios/Fetch
 - Error handling patterns
@@ -2022,9 +2104,9 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        ...options?.headers,
+        ...options?.headers
       },
-      ...options,
+      ...options
     }
 
     const response = await fetch(url, config)
@@ -2040,19 +2122,21 @@ class ApiClient {
     return response.json()
   }
 
-  get<T>(endpoint: string) { return this.request<T>(endpoint) }
+  get<T>(endpoint: string) {
+    return this.request<T>(endpoint)
+  }
 
   post<T>(endpoint: string, data: unknown) {
     return this.request<T>(endpoint, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
   }
 
   put<T>(endpoint: string, data: unknown) {
     return this.request<T>(endpoint, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
   }
 
@@ -2074,11 +2158,12 @@ export const todoService = {
   getById: (id: number) => api.get<Todo>(`/todos/${id}`),
   create: (data: CreateTodoDTO) => api.post<Todo>('/todos', data),
   update: (id: number, data: UpdateTodoDTO) => api.put<Todo>(`/todos/${id}`, data),
-  delete: (id: number) => api.delete<void>(`/todos/${id}`),
+  delete: (id: number) => api.delete<void>(`/todos/${id}`)
 }
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `ApiClient` class hoặc module
 2. Tạo `todoService` với CRUD methods
 3. Integrate với Pinia store
@@ -2086,6 +2171,7 @@ export const todoService = {
 5. Tạo `.env` files cho API URL
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Service layer tách biệt khỏi components
 - [ ] Error handling centralized
 - [ ] Auth token auto-inject
@@ -2093,6 +2179,7 @@ export const todoService = {
 - [ ] TypeScript types cho request/response
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(services): add API client and todo service
 
@@ -2107,6 +2194,7 @@ feat(services): add API client and todo service
 ## 📘 Bài 12: Error Handling và Loading States
 
 ### 🎯 Mục tiêu
+
 - Global error handling
 - Error boundary component pattern
 - Loading skeleton / spinner patterns
@@ -2159,12 +2247,14 @@ defineProps<Props>()
 > **So sánh React**: React dùng Error Boundary (class component) hoặc Suspense. Vue không có Error Boundary built-in, nhưng pattern trên achieve kết quả tương tự với Composition API.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `AsyncState` wrapper component
 2. Tạo `SkeletonCard` loading placeholder
 3. Implement toast notification composable `useToast()`
 4. Global error handler trong `main.ts`
 
 ### ✅ Checklist hoàn thành
+
 - [ ] AsyncState component reusable
 - [ ] Loading skeletons cho mọi async content
 - [ ] Toast notifications hoạt động
@@ -2172,6 +2262,7 @@ defineProps<Props>()
 - [ ] Retry mechanism cho failed requests
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(error-handling): add AsyncState, SkeletonCard, and Toast system
 
@@ -2190,6 +2281,7 @@ feat(error-handling): add AsyncState, SkeletonCard, and Toast system
 ## 📘 Bài 13: Slots — Content Distribution System
 
 ### 🎯 Mục tiêu
+
 - Master Vue Slots: default, named, scoped
 - So sánh với React children / render props
 - Xây dựng flexible layout components
@@ -2202,7 +2294,8 @@ feat(error-handling): add AsyncState, SkeletonCard, and Toast system
 <!-- Vue: Default Slot = React children -->
 <template>
   <div class="card">
-    <slot />   <!-- == {children} trong React -->
+    <slot />
+    <!-- == {children} trong React -->
   </div>
 </template>
 
@@ -2210,7 +2303,8 @@ feat(error-handling): add AsyncState, SkeletonCard, and Toast system
 <template>
   <div class="modal">
     <header><slot name="header" /></header>
-    <main><slot /></main>                    <!-- default slot -->
+    <main><slot /></main>
+    <!-- default slot -->
     <footer><slot name="footer" /></footer>
   </div>
 </template>
@@ -2231,10 +2325,7 @@ feat(error-handling): add AsyncState, SkeletonCard, and Toast system
 
 ```tsx
 // React: phải dùng props cho "named slots"
-<Modal
-  header={<h2>Title</h2>}
-  footer={<button>Close</button>}
->
+<Modal header={<h2>Title</h2>} footer={<button>Close</button>}>
   <p>Body content (children)</p>
 </Modal>
 ```
@@ -2258,11 +2349,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <slot
-      :items="items"
-      :loading="loading"
-      :count="items.length"
-    />
+    <slot :items="items" :loading="loading" :count="items.length" />
   </div>
 </template>
 ```
@@ -2279,32 +2366,39 @@ onMounted(async () => {
 
 ```tsx
 // React Render Props equivalent
-<DataList render={({ items, loading, count }) => (
-  <>
-    <p>Total: {count}</p>
-    {!loading && (
-      <ul>
-        {items.map(item => <li key={item.id}>{item.name}</li>)}
-      </ul>
-    )}
-  </>
-)} />
+<DataList
+  render={({ items, loading, count }) => (
+    <>
+      <p>Total: {count}</p>
+      {!loading && (
+        <ul>
+          {items.map(item => (
+            <li key={item.id}>{item.name}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  )}
+/>
 ```
 
 > **🔑 Vue Slots** linh hoạt hơn React children vì có named slots (nhiều insertion points) và scoped slots (truyền data ngược lên).
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `BaseModal` với named slots: header, default, footer
 2. Tạo `DataTable` component với scoped slot cho custom cell rendering
 3. Tạo `Accordion` component với slot-based content
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Default slot hoạt động (fallback content)
 - [ ] Named slots cho multi-area layout
 - [ ] Scoped slots truyền data cho parent
 - [ ] Components flexible và reusable
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(slots): add Modal, DataTable with slot-based content
 
@@ -2318,6 +2412,7 @@ feat(slots): add Modal, DataTable with slot-based content
 ## 📘 Bài 14: Provide/Inject — Dependency Injection
 
 ### 🎯 Mục tiêu
+
 - Hiểu Provide/Inject pattern (tương đương React Context)
 - Tránh props drilling
 - Type-safe provide/inject với InjectionKey
@@ -2377,11 +2472,13 @@ const { theme, toggleTheme } = useContext(ThemeContext)
 > **🔑 Vue Provide/Inject** không cần wrapper component (Provider). Chỉ cần gọi `provide()` trong parent, và `inject()` trong bất kỳ child nào.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo Theme provider với provide/inject
 2. Tạo Notification provider
 3. Implement type-safe InjectionKey pattern
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(di): add Provide/Inject for theme and notifications
 ```
@@ -2391,6 +2488,7 @@ feat(di): add Provide/Inject for theme and notifications
 ## 📘 Bài 15: Transition và Animation
 
 ### 🎯 Mục tiêu
+
 - Vue `<Transition>` và `<TransitionGroup>` components
 - CSS transitions và JavaScript hooks
 - Animation patterns cho production UI
@@ -2451,12 +2549,14 @@ feat(di): add Provide/Inject for theme and notifications
 > **Vue built-in `<Transition>`** là feature rất mạnh mà React không có equivalent built-in. React cần Framer Motion hoặc react-transition-group.
 
 ### 📝 Yêu cầu bài tập
+
 1. Implement fade, slide, scale transitions
 2. List animation cho todo items (add/remove)
 3. Page transition giữa routes
 4. Modal animation (enter/leave)
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(transitions): add page, modal, and list animations
 ```
@@ -2466,6 +2566,7 @@ feat(transitions): add page, modal, and list animations
 ## 📘 Bài 16: Custom Directives
 
 ### 🎯 Mục tiêu
+
 - Tạo custom directives
 - Hiểu directive lifecycle hooks
 - Production use cases: click-outside, intersection observer, tooltip
@@ -2487,7 +2588,7 @@ export const vClickOutside: Directive<HTMLElement, () => void> = {
   },
   unmounted(el) {
     document.removeEventListener('click', el._clickOutside)
-  },
+  }
 }
 
 // Sử dụng:
@@ -2497,11 +2598,13 @@ export const vClickOutside: Directive<HTMLElement, () => void> = {
 > **React không có directives** — phải dùng custom hooks + refs để achieve tương tự. Vue directives là cách declarative để thao tác DOM.
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `v-click-outside` directive
 2. Tạo `v-focus` directive (auto-focus khi mount)
 3. Tạo `v-intersection` directive (lazy loading)
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(directives): add click-outside, focus, intersection directives
 ```
@@ -2511,6 +2614,7 @@ feat(directives): add click-outside, focus, intersection directives
 ## 📘 Bài 17: Plugins và App-level Configuration
 
 ### 🎯 Mục tiêu
+
 - Tạo Vue plugin
 - Global components, directives, provides
 - Plugin architecture cho scalable apps
@@ -2538,9 +2642,9 @@ export const UIPlugin = {
     // Provide global config
     app.provide('app-config', {
       apiUrl: import.meta.env.VITE_API_URL,
-      version: '1.0.0',
+      version: '1.0.0'
     })
-  },
+  }
 }
 
 // main.ts
@@ -2548,11 +2652,13 @@ app.use(UIPlugin)
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo UI Plugin đăng ký global components
 2. Tạo Logger Plugin
 3. Tổ chức plugins trong `src/plugins/`
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(plugins): add UI and Logger plugins
 ```
@@ -2562,6 +2668,7 @@ feat(plugins): add UI and Logger plugins
 ## 📘 Bài 18: Testing — Unit Tests và Component Tests
 
 ### 🎯 Mục tiêu
+
 - Setup Vitest + Vue Test Utils
 - Unit test composables
 - Component testing patterns
@@ -2578,14 +2685,14 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 describe('BaseButton', () => {
   it('renders label correctly', () => {
     const wrapper = mount(BaseButton, {
-      props: { label: 'Click me' },
+      props: { label: 'Click me' }
     })
     expect(wrapper.text()).toContain('Click me')
   })
 
   it('emits click event', async () => {
     const wrapper = mount(BaseButton, {
-      props: { label: 'Click me' },
+      props: { label: 'Click me' }
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeTruthy()
@@ -2593,7 +2700,7 @@ describe('BaseButton', () => {
 
   it('does not emit when disabled', async () => {
     const wrapper = mount(BaseButton, {
-      props: { label: 'Click me', disabled: true },
+      props: { label: 'Click me', disabled: true }
     })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeFalsy()
@@ -2620,12 +2727,14 @@ describe('useCounter', () => {
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Setup Vitest trong project
 2. Test BaseButton, BaseInput components
 3. Test useCounter, useLocalStorage composables
 4. Test Pinia store
 
 ### 📌 Git commit đề xuất
+
 ```
 test: add unit and component tests
 
@@ -2644,6 +2753,7 @@ test: add unit and component tests
 ## 📘 Bài 19: Performance Optimization
 
 ### 🎯 Mục tiêu
+
 - Lazy loading components và routes
 - `v-once`, `v-memo` directives
 - `defineAsyncComponent` pattern
@@ -2661,8 +2771,8 @@ const HeavyChart = defineAsyncComponent({
   loader: () => import('@/components/HeavyChart.vue'),
   loadingComponent: LoadingSpinner,
   errorComponent: ErrorDisplay,
-  delay: 200,       // Hiện loading sau 200ms
-  timeout: 10000,   // Timeout sau 10s
+  delay: 200, // Hiện loading sau 200ms
+  timeout: 10000 // Timeout sau 10s
 })
 
 // shallowRef: chỉ track .value reassign, không deep track
@@ -2689,12 +2799,14 @@ const bigList = shallowRef<Item[]>([])
 > **React equivalent**: `React.lazy()`, `React.memo()`, `useMemo()`. Vue `v-memo` tương tự React.memo nhưng ở template level, fine-grained hơn.
 
 ### 📝 Yêu cầu bài tập
+
 1. Implement lazy loading cho heavy components
 2. Sử dụng `shallowRef` cho large datasets
 3. Analyze bundle size với `vite-bundle-analyzer`
 4. Optimize re-renders với `v-memo`
 
 ### 📌 Git commit đề xuất
+
 ```
 perf: optimize bundle size and rendering performance
 ```
@@ -2704,6 +2816,7 @@ perf: optimize bundle size and rendering performance
 ## 📘 Bài 20: SSR Concepts và Nuxt.js Introduction
 
 ### 🎯 Mục tiêu
+
 - Hiểu SSR/SSG concepts
 - So sánh Vue + Vite (SPA) vs Nuxt.js (SSR/SSG) vs Next.js
 - Khi nào cần SSR, khi nào SPA là đủ
@@ -2726,11 +2839,13 @@ Nuxt.js    = Next.js (SSR/SSG framework)
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Hiểu sự khác biệt SPA vs SSR vs SSG
 2. Tìm hiểu Nuxt.js documentation
 3. Lập danh sách khi nào chọn approach nào
 
 ### 📌 Git commit đề xuất
+
 ```
 docs: add SSR/SSG comparison and decision guide
 ```
@@ -2740,6 +2855,7 @@ docs: add SSR/SSG comparison and decision guide
 ## 📘 Bài 21: Internationalization (i18n)
 
 ### 🎯 Mục tiêu
+
 - Setup vue-i18n cho multi-language
 - Tổ chức translation files
 - Language switcher component
@@ -2754,10 +2870,10 @@ import en from './locales/en.json'
 import vi from './locales/vi.json'
 
 export const i18n = createI18n({
-  legacy: false,  // Composition API mode
+  legacy: false, // Composition API mode
   locale: 'vi',
   fallbackLocale: 'en',
-  messages: { en, vi },
+  messages: { en, vi }
 })
 ```
 
@@ -2777,12 +2893,14 @@ const { t, locale } = useI18n()
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Setup vue-i18n
 2. Tạo translation files cho EN và VI
 3. Implement LanguageSwitcher component
 4. Apply i18n cho tất cả text trong app
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(i18n): add multi-language support (EN/VI)
 ```
@@ -2792,6 +2910,7 @@ feat(i18n): add multi-language support (EN/VI)
 ## 📘 Bài 22: Authentication Flow
 
 ### 🎯 Mục tiêu
+
 - Implement full auth flow: login, register, logout
 - JWT token management
 - Protected routes
@@ -2834,12 +2953,14 @@ export const useAuthStore = defineStore('auth', () => {
 ```
 
 ### 📝 Yêu cầu bài tập
+
 1. Tạo `useAuthStore` với full auth flow
 2. Tạo Login/Register pages
 3. Implement navigation guards cho protected routes
 4. Auto-login khi refresh page
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(auth): implement full authentication flow
 
@@ -2854,6 +2975,7 @@ feat(auth): implement full authentication flow
 ## 📘 Bài 23: Project 1 — Landing Page
 
 ### 🎯 Mục tiêu
+
 - Xây dựng Landing Page hoàn chỉnh, responsive, production-ready
 - Apply tất cả kiến thức từ Bài 01–22
 - Focus: Aesthetics, Performance, SEO, Accessibility
@@ -2861,6 +2983,7 @@ feat(auth): implement full authentication flow
 ### 📝 Yêu cầu bài tập
 
 #### Sections cần xây dựng:
+
 1. **Hero Section**: Headline, CTA button, hero image/animation
 2. **Features Section**: 3-4 features với icons
 3. **Testimonials**: Carousel/slider
@@ -2870,6 +2993,7 @@ feat(auth): implement full authentication flow
 7. **Footer**: Links, social media, copyright
 
 #### Yêu cầu kỹ thuật:
+
 - Responsive (mobile-first)
 - Smooth scroll navigation
 - Intersection Observer animations (scroll reveal)
@@ -2877,6 +3001,7 @@ feat(auth): implement full authentication flow
 - Performance: Lighthouse score > 90
 
 ### Component Architecture:
+
 ```
 src/
 ├── pages/
@@ -2893,6 +3018,7 @@ src/
 ```
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Tất cả 7 sections hoàn chỉnh
 - [ ] Responsive trên mobile, tablet, desktop
 - [ ] Animations smooth và professional
@@ -2902,6 +3028,7 @@ src/
 - [ ] Code clean, components modular
 
 ### 📌 Git commit đề xuất
+
 ```
 feat(landing): build production-ready landing page
 
@@ -2916,6 +3043,7 @@ feat(landing): build production-ready landing page
 ## 📘 Bài 24: Project 2 — Todo Dashboard (CRUD + Real API)
 
 ### 🎯 Mục tiêu
+
 - Xây dựng Todo Dashboard application hoàn chỉnh
 - CRUD operations với API thật (JSONPlaceholder hoặc custom API)
 - Full stack: Router, Pinia, Services, Composables, Error Handling
@@ -2924,6 +3052,7 @@ feat(landing): build production-ready landing page
 ### 📝 Yêu cầu bài tập
 
 #### Features cần implement:
+
 1. **Auth**: Login/Logout (mock hoặc thật)
 2. **Dashboard**: Overview statistics (total, completed, pending)
 3. **Todo List**: Filter, search, sort, pagination
@@ -2933,6 +3062,7 @@ feat(landing): build production-ready landing page
 7. **Responsive**: Sidebar layout cho desktop, bottom nav cho mobile
 
 #### Architecture:
+
 ```
 src/
 ├── layouts/
@@ -2965,6 +3095,7 @@ src/
 ```
 
 ### Yêu cầu kỹ thuật:
+
 - TypeScript strict
 - Pinia stores cho state management
 - Service layer cho API calls
@@ -2975,6 +3106,7 @@ src/
 - Dark mode support
 
 ### 🚀 Deploy
+
 ```bash
 # Build production
 npm run build
@@ -2990,6 +3122,7 @@ npx netlify deploy --prod --dir dist
 ```
 
 ### ✅ Checklist hoàn thành
+
 - [ ] Full CRUD operations hoạt động
 - [ ] Auth flow (login/logout/guard)
 - [ ] Dashboard stats hiển thị chính xác
@@ -3006,6 +3139,7 @@ npx netlify deploy --prod --dir dist
 - [ ] Lighthouse Performance > 85
 
 ### 📌 Git commits đề xuất
+
 ```
 feat(dashboard): set up dashboard layout and routing
 feat(todos): implement todo CRUD with API integration
@@ -3019,37 +3153,37 @@ chore: deploy to production
 
 # 📊 Bảng So Sánh Tổng Hợp: Vue 3 vs React
 
-| Concept | Vue 3 | React | Ghi chú |
-|---------|-------|-------|---------|
-| Component | SFC (`.vue`) | Function (`.tsx`) | Vue có template + style trong cùng file |
-| State | `ref()`, `reactive()` | `useState()` | Vue mutable, React immutable |
-| Derived State | `computed()` | `useMemo()` | Vue auto-track deps |
-| Side Effects | `watch()`, `watchEffect()` | `useEffect()` | Vue tách rõ source |
-| Props | `defineProps<T>()` | Destructure params | Vue có runtime validation |
-| Events | `emit()` + `@event` | Callback props | Vue tách data/events |
-| Context | `provide()` / `inject()` | `createContext()` | Vue không cần Provider wrapper |
-| Router | Vue Router (config-based) | React Router / Next.js | Vue manual, Next.js file-based |
-| State Mgmt | Pinia | Redux / Zustand | Pinia ít boilerplate hơn |
-| Styling | Scoped CSS built-in | CSS Modules / styled-comp | Vue zero-config |
-| Animation | `<Transition>` built-in | Framer Motion | Vue built-in, React cần lib |
-| Directives | `v-if`, `v-for`, custom | JSX expressions | Vue declarative, React programmatic |
-| Lifecycle | Named hooks | `useEffect()` | Vue explicit, React combined |
-| SSR Framework | Nuxt.js | Next.js | Tương đương nhau |
-| Build Tool | Vite | Vite / Turbopack | Cùng dùng Vite được |
-| Two-way binding | `v-model` | Manual value+onChange | Vue syntactic sugar |
+| Concept         | Vue 3                      | React                     | Ghi chú                                 |
+| --------------- | -------------------------- | ------------------------- | --------------------------------------- |
+| Component       | SFC (`.vue`)               | Function (`.tsx`)         | Vue có template + style trong cùng file |
+| State           | `ref()`, `reactive()`      | `useState()`              | Vue mutable, React immutable            |
+| Derived State   | `computed()`               | `useMemo()`               | Vue auto-track deps                     |
+| Side Effects    | `watch()`, `watchEffect()` | `useEffect()`             | Vue tách rõ source                      |
+| Props           | `defineProps<T>()`         | Destructure params        | Vue có runtime validation               |
+| Events          | `emit()` + `@event`        | Callback props            | Vue tách data/events                    |
+| Context         | `provide()` / `inject()`   | `createContext()`         | Vue không cần Provider wrapper          |
+| Router          | Vue Router (config-based)  | React Router / Next.js    | Vue manual, Next.js file-based          |
+| State Mgmt      | Pinia                      | Redux / Zustand           | Pinia ít boilerplate hơn                |
+| Styling         | Scoped CSS built-in        | CSS Modules / styled-comp | Vue zero-config                         |
+| Animation       | `<Transition>` built-in    | Framer Motion             | Vue built-in, React cần lib             |
+| Directives      | `v-if`, `v-for`, custom    | JSX expressions           | Vue declarative, React programmatic     |
+| Lifecycle       | Named hooks                | `useEffect()`             | Vue explicit, React combined            |
+| SSR Framework   | Nuxt.js                    | Next.js                   | Tương đương nhau                        |
+| Build Tool      | Vite                       | Vite / Turbopack          | Cùng dùng Vite được                     |
+| Two-way binding | `v-model`                  | Manual value+onChange     | Vue syntactic sugar                     |
 
 ---
 
 # 🎯 Lộ trình thực hiện đề xuất
 
-| Tuần | Bài | Thời gian/bài | Focus |
-|------|-----|--------------|-------|
-| 1 | 01–04 | 2-3 giờ | Foundation: Setup, Components, Reactivity, Template |
-| 2 | 05–08 | 2-3 giờ | Core: Lifecycle, Styling, Composables, Router |
-| 3 | 09–12 | 3-4 giờ | Features: Pinia, Forms, API, Error Handling |
-| 4 | 13–16 | 3-4 giờ | Advanced: Slots, Provide/Inject, Transition, Directives |
-| 5 | 17–20 | 3-4 giờ | Production: Plugins, Testing, Performance, SSR |
-| 6 | 21–24 | 5-6 giờ | Projects: i18n, Auth, Landing Page, Todo Dashboard |
+| Tuần | Bài   | Thời gian/bài | Focus                                                   |
+| ---- | ----- | ------------- | ------------------------------------------------------- |
+| 1    | 01–04 | 2-3 giờ       | Foundation: Setup, Components, Reactivity, Template     |
+| 2    | 05–08 | 2-3 giờ       | Core: Lifecycle, Styling, Composables, Router           |
+| 3    | 09–12 | 3-4 giờ       | Features: Pinia, Forms, API, Error Handling             |
+| 4    | 13–16 | 3-4 giờ       | Advanced: Slots, Provide/Inject, Transition, Directives |
+| 5    | 17–20 | 3-4 giờ       | Production: Plugins, Testing, Performance, SSR          |
+| 6    | 21–24 | 5-6 giờ       | Projects: i18n, Auth, Landing Page, Todo Dashboard      |
 
 > **💡 Tips**: Không cần rush. Mỗi bài hãy code thật, commit thật, review thật. Chất lượng quan trọng hơn tốc độ.
 

@@ -37,3 +37,10 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# ENV
+.env.local
+.env.*.local
+
+# Husky
+.husky/pre-commit

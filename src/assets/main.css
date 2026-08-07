@@ -7,7 +7,14 @@
   font-weight: normal;
 }
 
-a,
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
 .green {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);

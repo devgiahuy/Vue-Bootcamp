@@ -1,0 +1,50 @@
+/* src/styles/variables.css */
+
+/* 1. Light Mode (Mặc định) */
+:root {
+  /* Brand Colors (Không đổi giữa các theme) */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+
+  /* Semantic Theme Tokens (Thay đổi theo theme) */
+  --color-bg-base: #ffffff;
+  --color-bg-surface: #f8fafc;
+  --color-bg-card: #ffffff;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  /* Typography, Spacing, Shadows, Transitions... */
+  --font-family: 'Inter', system-ui, sans-serif;
+  --spacing-md: 1rem;
+  --radius-md: 0.5rem;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --transition-base: 250ms ease;
+}
+
+/* 2. Dark Mode - Tự động theo cấu hình Hệ điều hành (OS Preference) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-bg-base: #0f172a;
+    --color-bg-surface: #1e293b;
+    --color-bg-card: #1e293b;
+    --color-text-main: #f8fafc;
+    --color-text-muted: #94a3b8;
+    --color-border: #334155;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* 3. Dark Mode - Ép thủ công bằng class .dark trên thẻ <html> (Manual Toggle) */
+html.dark {
+  --color-bg-base: #0f172a;
+  --color-bg-surface: #1e293b;
+  --color-bg-card: #1e293b;
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}

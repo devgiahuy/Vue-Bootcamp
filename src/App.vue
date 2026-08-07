@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HomePage from './pages/HomePage.vue'
+import { RouterView } from 'vue-router'
+// import HomePage from './pages/HomePage.vue'
 </script>
 
 <template>
@@ -16,9 +16,12 @@ import HomePage from './pages/HomePage.vue'
       </nav>
     </div>
   </header> -->
-  <HomePage />
-
-  <RouterView />
+  <!-- <HomePage /> -->
+  <div id="app">
+    <p>aaaaa</p>
+    <p>aaaaa1</p>
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
@@ -82,5 +85,13 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+</style>
+
+<style>
+#app {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  min-height: 100vh;
 }
 </style>
