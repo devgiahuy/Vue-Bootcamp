@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import ComponentsDemo from './pages/ComponentsDemo.vue'
 </script>
 
 <template>
   <div id="app">
-    <p>aaaaa</p>
-    <p>aaaaa</p>
-    <p>aaaaa</p>
-    <p>aaaaa1</p>
+    <ComponentsDemo />
     <RouterView />
   </div>
 </template>
