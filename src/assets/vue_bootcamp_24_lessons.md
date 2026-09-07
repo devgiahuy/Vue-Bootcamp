@@ -893,7 +893,6 @@ useEffect(() => {
 > **🔑 watch vs watchEffect**:
 >
 > - `watch`: Explicit source, có access `oldValue`, lazy (không chạy lần đầu trừ khi `immediate: true`)
-> - `immediate`: true => true là: chạy ngay lần đầu tiên
 > - `watchEffect`: Tự track, chạy ngay, gọn hơn — dùng khi không cần `oldValue`
 > - Cả hai đều **tự cleanup** khi component unmount (React phải return cleanup function)
 

@@ -36,17 +36,27 @@ function handleImageError() {
 // Hàm tính chữ cái đại diện (Initials) từ tên
 // Ví dụ: "Nguyen Van A" -> "NA", "John Doe" -> "JD"
 const Initials = computed(() => {
-  if (!props.name) return '?'
-  const words = props.name.trim().split(/\s+/)
+  const trimmed = props.name?.trim()
+  if (!trimmed) return '?'
+
+  const words = trimmed.split(/\s+/)
+  const firstWord = words[0]
+  if (!firstWord) return '?'
+
   if (words.length === 1) {
-    return words[0].substring(0, 2).toUpperCase()
+    return firstWord.slice(0, 2).toUpperCase()
   }
-  return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+
+  const lastWord = words[words.length - 1] ?? firstWord
+  const firstChar = firstWord[0] ?? ''
+  const lastChar = lastWord[0] ?? ''
+
+  return (firstChar + lastChar).toUpperCase()
 })
 </script>
 
 <template>
-  <div :class="[`avatar-size-${size}`, `avatar-shape-${shape}`]">
+  <div class="avatar" :class="[`avatar--${size}`, `avatar--${shape}`]">
     <img
       v-if="src && !hasImageError"
       :src="src"

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import ComponentsDemo from './pages/ComponentsDemo.vue'
+// import { RouterView } from 'vue-router'
+// import ComponentsDemo from './pages/ComponentsDemo.vue'
+import TemplateDemo from './pages/TemplateDemo.vue'
 </script>
 
 <template>
   <div id="app">
-    <ComponentsDemo />
-    <RouterView />
+    <!-- <ComponentsDemo />
+    <RouterView /> -->
+    <TemplateDemo />
   </div>
 </template>
 

@@ -29,14 +29,12 @@ function handleSubmit() {
 
       <div style="margin-top: 1rem; display: flex; gap: 0.5rem">
         <!-- Button với Left Icon bằng slot -->
-        <BaseButton :loading="isLoading" @click="handleSubmit">
+        <BaseButton label="Submit Form" :loading="isLoading" @click="handleSubmit">
           <template #left-icon>🚀</template>
-          Submit Form
         </BaseButton>
 
         <!-- Button với Right Icon -->
-        <BaseButton variant="outline">
-          Cancel
+        <BaseButton label="Cancel" variant="danger">
           <template #right-icon>✖</template>
         </BaseButton>
       </div>
